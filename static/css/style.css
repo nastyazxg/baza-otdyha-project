@@ -719,3 +719,119 @@ ul { list-style: none; }
     .gallery-main { height: 250px; }
     .auth-form { padding: 24px; }
 }
+
+/* ===== ФОРМА КОНТАКТОВ ===== */
+.contact-form-wrapper {
+    max-width: 600px;
+    margin: 40px auto 0;
+    background: var(--color-white);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+.contact-form-wrapper h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+}
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+.contact-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.contact-form textarea.form-input {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+}
+
+/* ===== МОДАЛЬНОЕ ОКНО ===== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: var(--color-white);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+.modal-content h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+.modal-content p {
+    font-size: 15px;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+/* ===== СООБЩЕНИЕ ПОДПИСКИ ===== */
+.subscribe-message {
+    margin-top: 8px;
+    font-size: 13px;
+    min-height: 18px;
+}
+.subscribe-message.success {
+    color: #065F46;
+}
+.subscribe-message.error {
+    color: #991B1B;
+}
+
+/* ===== ПОДСКАЗКА ВХОДА ===== */
+.login-prompt {
+    text-align: center;
+    padding: 24px;
+    background: #F3F4F6;
+    border-radius: var(--radius);
+    font-size: 14px;
+}
+.login-prompt a {
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+/* ===== ИНДИКАТОР ЗАГРУЗКИ ===== */
+.btn-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+@keyframes spin {
+    to { transform: translateY(-50%) rotate(360deg); }
+}
