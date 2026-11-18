@@ -49,10 +49,15 @@
 
     <footer class="footer">
         <div class="container footer-grid">
-            <div class="footer-col">
-                <h4>База Отдыха</h4>
-                <p>Ваш надежный партнер в организации отдыха</p>
-            </div>
+<div class="footer-col">
+    <h4>Подписка</h4>
+    <form class="subscribe-form" id="subscribe-form" novalidate>
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Ваш email" required aria-label="Email для подписки" id="subscribe-email">
+        <button type="submit" class="btn btn-primary">Подписаться</button>
+    </form>
+    <div id="subscribe-message" class="subscribe-message"></div>
+</div>
             <div class="footer-col">
                 <h4>Навигация</h4>
                 <ul>

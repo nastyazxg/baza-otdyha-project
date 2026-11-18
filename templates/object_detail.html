@@ -46,41 +46,83 @@
         </section>
     </div>
 
-    <aside class="booking-widget">
-        <div class="widget-price">
-            {% if tariffs %}{{ tariffs.0.price_per_day|floatformat:0 }} ₽{% else %}3 500 ₽{% endif %}
-            <span>/ ночь</span>
+<aside class="booking-widget">
+    <div class="widget-price">
+        {% if tariffs %}{{ tariffs.0.price_per_day|floatformat:0 }} ₽{% else %}3 500 ₽{% endif %}
+        <span>/ ночь</span>
+    </div>
+    
+    {% if user.is_authenticated %}
+    <form id="booking-calc" method="post" action="{% url 'object_detail' pk=object.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="total_price" id="total-price-input" value="0">
+        
+        <div class="widget-dates">
+            <div class="widget-date">
+                <label for="{{ form.check_in_date.id_for_label }}">Заезд</label>
+                {{ form.check_in_date }}
+                {% if form.check_in_date.errors %}
+                    <div class="form-error">{{ form.check_in_date.errors.0 }}</div>
+                {% endif %}
+            </div>
+            <div class="widget-date">
+                <label for="{{ form.check_out_date.id_for_label }}">Выезд</label>
+                {{ form.check_out_date }}
+                {% if form.check_out_date.errors %}
+                    <div class="form-error">{{ form.check_out_date.errors.0 }}</div>
+                {% endif %}
+            </div>
         </div>
-        <form id="booking-calc" method="post" action="#">
-            {% csrf_token %}
-            <div class="widget-dates">
-                <div class="widget-date">
-                    <label for="check_in">Заезд</label>
-                    <input type="date" id="check_in" name="check_in" required>
-                </div>
-                <div class="widget-date">
-                    <label for="check_out">Выезд</label>
-                    <input type="date" id="check_out" name="check_out" required>
-                </div>
+        
+        <div class="widget-guests">
+            <label for="{{ form.base_guests_count.id_for_label }}">Гости</label>
+            {{ form.base_guests_count }}
+            {% if form.base_guests_count.errors %}
+                <div class="form-error">{{ form.base_guests_count.errors.0 }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="widget-guests">
+            <label for="{{ form.extra_guests_count.id_for_label }}">Доп. места (макс. 2)</label>
+            {{ form.extra_guests_count }}
+            {% if form.extra_guests_count.errors %}
+                <div class="form-error">{{ form.extra_guests_count.errors.0 }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="widget-total">
+            <span>Итого:</span>
+            <strong id="total-price">0 ₽</strong>
+        </div>
+        
+        <div class="widget-warning" id="min-stay-warning" style="display:none;">
+            ⚠ В выходные минимальный срок 2 суток
+        </div>
+        
+        <div class="widget-warning" id="availability-warning" style="display:none;">
+            ⚠ Объект занят на выбранные даты
+        </div>
+        
+        <button type="button" id="confirm-booking-btn" class="btn btn-primary btn-full">Забронировать</button>
+    </form>
+    
+    <!-- Модальное окно подтверждения -->
+    <div id="booking-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>Подтверждение бронирования</h3>
+            <p id="modal-text">Вы уверены, что хотите забронировать?</p>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="btn btn-outline">Отмена</button>
+                <button id="modal-confirm" class="btn btn-primary">Подтвердить</button>
             </div>
-            <div class="widget-guests">
-                <label for="guests">Гости</label>
-                <select id="guests" name="guests">
-                    <option value="1">1 гость</option>
-                    <option value="2" selected>2 гостя</option>
-                    <option value="3">3 гостя</option>
-                    <option value="4">4 гостя</option>
-                </select>
-            </div>
-            <div class="widget-total">
-                <span>Итого</span>
-                <strong id="total-price">0 ₽</strong>
-            </div>
-            <div class="widget-warning" id="min-stay-warning" style="display:none;">
-                ⚠ В выходные минимальный срок 2 суток
-            </div>
-            <button type="submit" class="btn btn-primary btn-full">Забронировать</button>
-        </form>
-    </aside>
+        </div>
+    </div>
+    
+    {% else %}
+    <div class="login-prompt">
+        <p>Чтобы забронировать, нужно <a href="{% url 'login' %}">войти</a> или <a href="{% url 'register' %}">зарегистрироваться</a>.</p>
+    </div>
+    {% endif %}
+</aside>
 </div>
 {% endblock %}

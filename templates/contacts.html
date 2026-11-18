@@ -16,5 +16,22 @@
             <p><strong>Адрес:</strong> г. Москва, ул. Лесная, 15</p>
         </div>
     </div>
+
+    <div class="contact-form-wrapper">
+        <h2>Напишите нам</h2>
+        <form method="post" class="contact-form" id="contact-form" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="form-error">{{ field.errors.0 }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-full">Отправить сообщение</button>
+        </form>
+    </div>
 </section>
 {% endblock %}
