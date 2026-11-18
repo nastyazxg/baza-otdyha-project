@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}База Отдыха — Отдых на природе с комфортом{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-content">
+        <h1>Отдых на природе с комфортом</h1>
+        <p>Уютные домики вдали от городской суеты</p>
+        <form class="search-form" action="{% url 'catalog' %}" method="get">
+            <div class="search-field">
+                <label for="check_in">Дата заезда</label>
+                <input type="date" id="check_in" name="check_in" value="2027-08-12">
+            </div>
+            <div class="search-field">
+                <label for="check_out">Дата выезда</label>
+                <input type="date" id="check_out" name="check_out" value="2027-08-18">
+            </div>
+            <div class="search-field">
+                <label for="guests">Гости</label>
+                <input type="number" id="guests" name="guests" value="2" min="1">
+            </div>
+            <button type="submit" class="btn btn-primary">🔍 Найти</button>
+        </form>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Популярные домики</h2>
+            <a href="{% url 'catalog' %}" class="link-all">Смотреть все →</a>
+        </div>
+        <div class="cards-grid">
+            {% for obj in popular %}
+            <article class="card">
+                <a href="{% url 'object_detail' pk=obj.pk %}">
+                    <div class="card-img">
+                    {% if forloop.counter == 1 %}
+                        <img src="{% static 'img/home1.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 2 %}
+                        <img src="{% static 'img/home2.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 3 %}
+                        <img src="{% static 'img/home3.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ obj.name }}</h3>
+                        <div class="card-rating">★★★★★ 4.9 (124 отзыва)</div>
+                        <div class="card-price">
+                            {% if obj.tariffs.exists %}
+                                от {{ obj.tariffs.first.price_per_day|floatformat:0 }} ₽
+                            {% else %}
+                                от 4 500 ₽
+                            {% endif %}
+                            <span>/ за ночь</span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% empty %}
+            <p>Объекты пока не добавлены.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Результаты поиска — База Отдыха{% endblock %}
+
+{% block content %}
+<section class="section container">
+    <div class="search-header">
+        <h1>Результаты поиска</h1>
+        <p class="search-query-text">
+            {% if query %}
+                По запросу «<strong>{{ query }}</strong>» найдено {{ objects_count }} объект(ов)
+            {% else %}
+                Введите запрос для поиска
+            {% endif %}
+        </p>
+    </div>
+
+    <form method="get" action="{% url 'search' %}" class="search-form-inline">
+        <div class="search-input-wrapper">
+            <input type="text" name="q" value="{{ query }}" placeholder="Поиск по названию или описанию..." class="form-input search-input" required aria-label="Поисковый запрос">
+            <button type="submit" class="btn btn-primary search-btn">🔍 Найти</button>
+        </div>
+        <div class="search-filters">
+            <select name="type" class="form-select" aria-label="Тип объекта">
+                <option value="">Все типы</option>
+                {% for value, label in types %}
+                    <option value="{{ value }}" {% if request.GET.type == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <select name="capacity" class="form-select" aria-label="Вместимость">
+                <option value="">Любая вместимость</option>
+                <option value="2" {% if request.GET.capacity == '2' %}selected{% endif %}>До 2 гостей</option>
+                <option value="4" {% if request.GET.capacity == '4' %}selected{% endif %}>До 4 гостей</option>
+                <option value="6" {% if request.GET.capacity == '6' %}selected{% endif %}>До 6 гостей</option>
+                <option value="8" {% if request.GET.capacity == '8' %}selected{% endif %}>До 8 гостей</option>
+            </select>
+            <select name="sort" class="form-select" aria-label="Сортировка">
+                <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>По названию</option>
+                <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Сначала дешёвые</option>
+                <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Сначала дорогие</option>
+                <option value="capacity" {% if request.GET.sort == 'capacity' %}selected{% endif %}>По вместимости</option>
+            </select>
+        </div>
+    </form>
+
+    {% if objects %}
+    <div class="cards-grid">
+        {% for obj in objects %}
+        <article class="card">
+            <a href="{% url 'object_detail' pk=obj.pk %}">
+                <div class="card-img">
+                    {% if forloop.counter == 1 %}
+                        <img src="{% static 'img/home1.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 2 %}
+                        <img src="{% static 'img/home2.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 3 %}
+                        <img src="{% static 'img/home3.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 4 %}
+                        <img src="{% static 'img/catalog1.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 5 %}
+                        <img src="{% static 'img/catalog2.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 6 %}
+                        <img src="{% static 'img/catalog3.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 7 %}
+                        <img src="{% static 'img/catalog4.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 8 %}
+                        <img src="{% static 'img/catalog5.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% else %}
+                        <img src="{% static 'img/catalog6.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% endif %}
+                    </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{ obj.name }}</h3>
+                    <p class="card-type">{{ obj.get_type_display }}</p>
+                    <p class="card-capacity">👥 {{ obj.base_capacity }} гостей</p>
+                    <div class="card-bottom">
+                        {% if obj.tariffs.exists %}
+                            <span class="card-price">от {{ obj.tariffs.first.price_per_day|floatformat:0 }} ₽/ночь</span>
+                        {% else %}
+                            <span class="card-price">Цена уточняется</span>
+                        {% endif %}
+                        <span class="card-rating">★ 4.8</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+        {% endfor %}
+    </div>
+
+    {% if objects.has_other_pages %}
+    <nav class="pagination" aria-label="Навигация по страницам">
+        {% if objects.has_previous %}
+            <a href="?q={{ query }}&type={{ request.GET.type }}&capacity={{ request.GET.capacity }}&sort={{ request.GET.sort }}&page={{ objects.previous_page_number }}" class="page-btn">←</a>
+        {% endif %}
+        {% for num in objects.paginator.page_range %}
+            {% if num == objects.number %}
+                <span class="page-btn active" aria-current="page">{{ num }}</span>
+            {% elif num > objects.number|add:"-3" and num < objects.number|add:"3" %}
+                <a href="?q={{ query }}&type={{ request.GET.type }}&capacity={{ request.GET.capacity }}&sort={{ request.GET.sort }}&page={{ num }}" class="page-btn">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if objects.has_next %}
+            <a href="?q={{ query }}&type={{ request.GET.type }}&capacity={{ request.GET.capacity }}&sort={{ request.GET.sort }}&page={{ objects.next_page_number }}" class="page-btn">→</a>
+        {% endif %}
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="empty-state">
+        <h2>Ничего не найдено</h2>
+        <p>Попробуйте изменить запрос или убрать фильтры.</p>
+        <a href="{% url 'catalog' %}" class="btn btn-primary">Перейти в каталог</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Войти — База Отдыха{% endblock %}
+
+{% block content %}
+<section class="section container">
+    <div class="auth-form">
+        <h1>Войти</h1>
+        <form method="post" novalidate id="login-form">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="form-error">{{ field.errors.0 }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-full">Войти</button>
+        </form>
+        <p class="auth-link">Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+    </div>
+</section>
+{% endblock %}

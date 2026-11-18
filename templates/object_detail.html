@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ object.name }} — База Отдыха{% endblock %}
+
+{% block content %}
+<div class="object-layout container">
+    <div class="object-main">
+        <div class="gallery">
+            <div class="gallery-main">
+                <img src="{% static 'img/object-main.jpg' %}" alt="{{ object.name }}" width="800" height="400" loading="lazy">
+            </div>
+            <div class="gallery-side">
+                <div class="gallery-small">
+                    <img src="{% static 'img/object-small1.jpg' %}" alt="{{ object.name }}" width="190" height="190" loading="lazy">
+                </div>
+                <div class="gallery-small">
+                    <img src="{% static 'img/object-small2.jpg' %}" alt="{{ object.name }}" width="190" height="190" loading="lazy">
+                </div>
+                <div class="gallery-small">
+                    <img src="{% static 'img/object-small3.jpg' %}" alt="{{ object.name }}" width="190" height="190" loading="lazy">
+                </div>
+                <div class="gallery-small">
+                    <img src="{% static 'img/object-small4.jpg' %}" alt="{{ object.name }}" width="190" height="190" loading="lazy">
+                </div>
+            </div>
+        </div>
+
+        <div class="object-tags">
+            <span class="tag">{{ object.base_capacity }} гостей</span>
+            <span class="tag">{{ object.max_capacity|add:"-2" }} спальни</span>
+            <span class="tag">1 ванная</span>
+        </div>
+
+        <h1>{{ object.name }}</h1>
+        <p class="object-desc">{{ object.description }}</p>
+
+        <section class="rules">
+            <h2>Правила дома</h2>
+            <ul>
+                <li>Без вечеринок</li>
+                <li>Курение только на улице</li>
+                <li>Без шумной музыки после 22:00</li>
+                <li>Уборка перед выездом</li>
+            </ul>
+        </section>
+    </div>
+
+    <aside class="booking-widget">
+        <div class="widget-price">
+            {% if tariffs %}{{ tariffs.0.price_per_day|floatformat:0 }} ₽{% else %}3 500 ₽{% endif %}
+            <span>/ ночь</span>
+        </div>
+        <form id="booking-calc" method="post" action="#">
+            {% csrf_token %}
+            <div class="widget-dates">
+                <div class="widget-date">
+                    <label for="check_in">Заезд</label>
+                    <input type="date" id="check_in" name="check_in" required>
+                </div>
+                <div class="widget-date">
+                    <label for="check_out">Выезд</label>
+                    <input type="date" id="check_out" name="check_out" required>
+                </div>
+            </div>
+            <div class="widget-guests">
+                <label for="guests">Гости</label>
+                <select id="guests" name="guests">
+                    <option value="1">1 гость</option>
+                    <option value="2" selected>2 гостя</option>
+                    <option value="3">3 гостя</option>
+                    <option value="4">4 гостя</option>
+                </select>
+            </div>
+            <div class="widget-total">
+                <span>Итого</span>
+                <strong id="total-price">0 ₽</strong>
+            </div>
+            <div class="widget-warning" id="min-stay-warning" style="display:none;">
+                ⚠ В выходные минимальный срок 2 суток
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Забронировать</button>
+        </form>
+    </aside>
+</div>
+{% endblock %}

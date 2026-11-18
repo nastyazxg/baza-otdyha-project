@@ -1,0 +1,260 @@
+[
+  {
+    "model": "config.category",
+    "pk": 1,
+    "fields": {
+      "name": "Стандарт",
+      "description": "Базовое оснащение: кровать, тумбочка, душ, туалет",
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.category",
+    "pk": 2,
+    "fields": {
+      "name": "Люкс",
+      "description": "Улучшенное оснащение: двуспальная кровать, кондиционер, мини-кухня",
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.category",
+    "pk": 3,
+    "fields": {
+      "name": "Эконом",
+      "description": "Минимальное оснащение: кровать, общий душ",
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.category",
+    "pk": 4,
+    "fields": {
+      "name": "Премиум",
+      "description": "VIP-оснащение: джакузи, камин, панорамные окна",
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.accommodation",
+    "pk": 1,
+    "fields": {
+      "name": "Домик «Сосновый бор»",
+      "type": "cabin",
+      "category": 1,
+      "base_capacity": 4,
+      "max_capacity": 6,
+      "description": "Уютный домик в 50 метрах от озера. Есть мангальная зона.",
+      "is_active": true,
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.accommodation",
+    "pk": 2,
+    "fields": {
+      "name": "Домик «Берёзовая роща»",
+      "type": "cabin",
+      "category": 2,
+      "base_capacity": 2,
+      "max_capacity": 4,
+      "description": "Романтический домик для двоих с панорамными окнами.",
+      "is_active": true,
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.accommodation",
+    "pk": 3,
+    "fields": {
+      "name": "Беседка «У озера»",
+      "type": "gazebo",
+      "category": 1,
+      "base_capacity": 8,
+      "max_capacity": 10,
+      "description": "Просторная беседка с мангалом и видом на озеро.",
+      "is_active": true,
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.accommodation",
+    "pk": 4,
+    "fields": {
+      "name": "Глэмпинг «Звёздный»",
+      "type": "glamping",
+      "category": 2,
+      "base_capacity": 2,
+      "max_capacity": 3,
+      "description": "Шатёр с прозрачной крышей для наблюдения за звёздами.",
+      "is_active": true,
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.accommodation",
+    "pk": 5,
+    "fields": {
+      "name": "Домик «Лесной»",
+      "type": "cabin",
+      "category": 3,
+      "base_capacity": 3,
+      "max_capacity": 5,
+      "description": "Бюджетный домик в глубине леса.",
+      "is_active": true,
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.accommodation",
+    "pk": 6,
+    "fields": {
+      "name": "Домик «Речной»",
+      "type": "cabin",
+      "category": 4,
+      "base_capacity": 6,
+      "max_capacity": 8,
+      "description": "Большой домик на берегу реки с собственной баней.",
+      "is_active": true,
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.accommodation",
+    "pk": 7,
+    "fields": {
+      "name": "Беседка «Лесная поляна»",
+      "type": "gazebo",
+      "category": 1,
+      "base_capacity": 6,
+      "max_capacity": 8,
+      "description": "Беседка в тени деревьев, идеально для семейного отдыха.",
+      "is_active": true,
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.accommodation",
+    "pk": 8,
+    "fields": {
+      "name": "Глэмпинг «Озёрный»",
+      "type": "glamping",
+      "category": 2,
+      "base_capacity": 2,
+      "max_capacity": 2,
+      "description": "Уютный шатёр прямо на берегу озера.",
+      "is_active": true,
+      "created_at": "2026-11-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "config.seasonaltariff",
+    "pk": 1,
+    "fields": {
+      "accommodation": 1,
+      "season_name": "high",
+      "price_per_day": "3500.00",
+      "min_booking_days": 2,
+      "start_date": "2026-06-01",
+      "end_date": "2026-08-31"
+    }
+  },
+  {
+    "model": "config.seasonaltariff",
+    "pk": 2,
+    "fields": {
+      "accommodation": 1,
+      "season_name": "low",
+      "price_per_day": "2500.00",
+      "min_booking_days": 1,
+      "start_date": "2026-09-01",
+      "end_date": "2027-05-31"
+    }
+  },
+  {
+    "model": "config.seasonaltariff",
+    "pk": 3,
+    "fields": {
+      "accommodation": 2,
+      "season_name": "high",
+      "price_per_day": "4500.00",
+      "min_booking_days": 2,
+      "start_date": "2026-06-01",
+      "end_date": "2026-08-31"
+    }
+  },
+  {
+    "model": "config.seasonaltariff",
+    "pk": 4,
+    "fields": {
+      "accommodation": 3,
+      "season_name": "weekend",
+      "price_per_day": "2000.00",
+      "min_booking_days": 2,
+      "start_date": "2026-11-01",
+      "end_date": "2027-03-31"
+    }
+  },
+  {
+    "model": "config.seasonaltariff",
+    "pk": 5,
+    "fields": {
+      "accommodation": 4,
+      "season_name": "holiday",
+      "price_per_day": "5000.00",
+      "min_booking_days": 3,
+      "start_date": "2026-12-30",
+      "end_date": "2027-01-08"
+    }
+  },
+  {
+    "model": "config.additionalservice",
+    "pk": 1,
+    "fields": {
+      "name": "Баня",
+      "service_type": "bath",
+      "price": "1500.00",
+      "is_active": true
+    }
+  },
+  {
+    "model": "config.additionalservice",
+    "pk": 2,
+    "fields": {
+      "name": "Лодка",
+      "service_type": "boat",
+      "price": "800.00",
+      "is_active": true
+    }
+  },
+  {
+    "model": "config.additionalservice",
+    "pk": 3,
+    "fields": {
+      "name": "Мангал с дровами",
+      "service_type": "grill",
+      "price": "500.00",
+      "is_active": true
+    }
+  },
+  {
+    "model": "config.additionalservice",
+    "pk": 4,
+    "fields": {
+      "name": "Прокат велосипедов",
+      "service_type": "rental",
+      "price": "400.00",
+      "is_active": true
+    }
+  },
+  {
+    "model": "config.additionalservice",
+    "pk": 5,
+    "fields": {
+      "name": "Прокат квадроцикла",
+      "service_type": "rental",
+      "price": "2000.00",
+      "is_active": true
+    }
+  }
+]

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Контакты — База Отдыха{% endblock %}
+
+{% block content %}
+<section class="section container">
+    <h1>Наши контакты</h1>
+    <div class="contacts-grid">
+        <div class="contacts-img">
+            <img src="{% static 'img/contacts.jpg' %}" alt="Как нас найти" width="600" height="300" loading="lazy">
+        </div>
+        <div class="contacts-info">
+            <p><strong>Телефон:</strong> +7 (800) 123-01-67</p>
+            <p><strong>Почта:</strong> <a href="mailto:info@baza-otdyha.ru">info@baza-otdyha.ru</a></p>
+            <p><strong>Адрес:</strong> г. Москва, ул. Лесная, 15</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

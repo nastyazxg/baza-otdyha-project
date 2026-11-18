@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Каталог объектов — База Отдыха{% endblock %}
+
+{% block content %}
+<div class="catalog-layout container">
+    <aside class="filters">
+        <form method="get" action="{% url 'catalog' %}">
+            <div class="filter-block">
+                <h3>Даты</h3>
+                <div class="date-inputs">
+                    <input type="date" name="check_in" class="form-input" placeholder="Заезд">
+                    <input type="date" name="check_out" class="form-input" placeholder="Выезд">
+                </div>
+            </div>
+            <div class="filter-block">
+                <h3>Тип объекта</h3>
+                {% for value, label in types %}
+                <label class="checkbox-item">
+                    <input type="checkbox" name="type" value="{{ value }}"
+                           {% if request.GET.type == value %}checked{% endif %}>
+                    <span>{{ label }}</span>
+                </label>
+                {% endfor %}
+            </div>
+            <div class="filter-block">
+                <h3>Вместимость</h3>
+                <div class="capacity-btns">
+                    <button type="button" class="cap-btn" data-value="2">+2</button>
+                    <button type="button" class="cap-btn active" data-value="4">+4</button>
+                    <button type="button" class="cap-btn" data-value="6">+6</button>
+                </div>
+                <input type="hidden" name="capacity" id="capacity-input" value="4">
+            </div>
+            <div class="filter-block">
+                <h3>Удобства</h3>
+                <label class="checkbox-item"><input type="checkbox" name="service" value="bath"> Баня</label>
+                <label class="checkbox-item"><input type="checkbox" name="service" value="grill"> Мангал</label>
+                <label class="checkbox-item"><input type="checkbox" name="service" value="boat"> Лодка</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Применить</button>
+        </form>
+    </aside>
+
+    <div class="catalog-content">
+        <nav class="crumbs" aria-label="Хлебные крошки">
+            <a href="{% url 'home' %}">Главная</a> / <span>Каталог</span>
+        </nav>
+        <h1>Каталог объектов</h1>
+        <div class="sort-bar">
+            <select class="form-select" aria-label="Сортировка">
+                <option>Сортировка: По названию</option>
+                <option>По цене: сначала дешёвые</option>
+                <option>По рейтингу</option>
+            </select>
+        </div>
+        <div class="cards-grid">
+            {% for obj in objects %}
+            <article class="card">
+                <a href="{% url 'object_detail' pk=obj.pk %}">
+                    <div class="card-img">
+                    {% if forloop.counter == 1 %}
+                        <img src="{% static 'img/home1.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 2 %}
+                        <img src="{% static 'img/home2.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 3 %}
+                        <img src="{% static 'img/home3.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 4 %}
+                        <img src="{% static 'img/catalog1.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 5 %}
+                        <img src="{% static 'img/catalog2.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 6 %}
+                        <img src="{% static 'img/catalog3.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 7 %}
+                        <img src="{% static 'img/catalog4.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% elif forloop.counter == 8 %}
+                        <img src="{% static 'img/catalog5.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% else %}
+                        <img src="{% static 'img/catalog6.jpg' %}" alt="{{ obj.name }}" width="360" height="200" loading="lazy">
+                    {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ obj.name }}</h3>
+                        <p class="card-location">{{ obj.get_type_display }}</p>
+                        <div class="card-bottom">
+                            {% if obj.tariffs.exists %}
+                                <span class="card-price">{{ obj.tariffs.first.price_per_day|floatformat:0 }} ₽/ночь</span>
+                            {% else %}
+                                <span class="card-price">Цена уточняется</span>
+                            {% endif %}
+                            <span class="card-rating">★ 4.8</span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% empty %}
+            <p>По вашему запросу ничего не найдено.</p>
+            {% endfor %}
+        </div>
+
+        {% if objects.has_other_pages %}
+        <nav class="pagination" aria-label="Навигация по страницам">
+            {% if objects.has_previous %}
+                <a href="?page={{ objects.previous_page_number }}" class="page-btn" aria-label="Предыдущая страница">←</a>
+            {% endif %}
+            {% for num in objects.paginator.page_range %}
+                {% if num == objects.number %}
+                    <span class="page-btn active" aria-current="page">{{ num }}</span>
+                {% elif num > objects.number|add:"-3" and num < objects.number|add:"3" %}
+                    <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if objects.has_next %}
+                <a href="?page={{ objects.next_page_number }}" class="page-btn" aria-label="Следующая страница">→</a>
+            {% endif %}
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}О базе — База Отдыха{% endblock %}
+
+{% block content %}
+<section class="section container">
+    <div class="about-grid">
+        <div class="about-img">
+            <img src="{% static 'img/logo.jpg' %}" alt="Территория базы отдыха" width="400" height="300" loading="lazy">
+        </div>
+        <div class="about-text">
+            <h1>База Отдыха — это уникальные пространства для отдыха по всей России.</h1>
+            <p>Также у нас есть качественный персонал, который вам поможет в любое время.</p>
+            <p><strong>Ждем именно тебя!</strong></p>
+        </div>
+    </div>
+    <div class="about-gallery">
+        <div class="about-gallery-item">
+            <img src="{% static 'img/catalog1.jpg' %}" alt="Уютные домики" width="400" height="300" loading="lazy">
+        </div>
+        <div class="about-gallery-item">
+            <img src="{% static 'img/about2.jpg' %}" alt="Природа и озеро" width="400" height="300" loading="lazy">
+        </div>
+        <div class="about-gallery-item">
+            <img src="{% static 'img/about3.jpg' %}" alt="Зона отдыха" width="400" height="300" loading="lazy">
+        </div>
+    </div>
+</section>
+{% endblock %}
