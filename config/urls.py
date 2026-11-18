@@ -11,11 +11,13 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('object/<int:pk>/', views.object_detail, name='object_detail'),
     path('about/', views.about, name='about'),
-    path('contacts/', views.contacts, name='contacts'),
+    path('contacts/', views.contacts_view, name='contacts'),
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('profile/', views.profile_view, name='profile'),
+    path('api/subscribe/', views.subscribe_ajax, name='subscribe_ajax'),
+    path('api/calculate/', views.calculate_price, name='calculate_price'),
 ]
 
 if settings.DEBUG:
